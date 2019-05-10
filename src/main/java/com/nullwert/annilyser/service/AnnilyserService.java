@@ -49,9 +49,9 @@ public class AnnilyserService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        anilyser.registerGamestateChangeListener(new gamestateListener());
-        anilyser.registerKillListener(new killListener());
-        anilyser.startParser("C:\\Users\\Torin\\Documents\\git\\annilyser\\Annilyser\\src\\main\\java\\com\\nullwert\\annilyser\\logsim\\testlog.txt", false);
+        //anilyser.registerGamestateChangeListener(new gamestateListener());
+        //anilyser.registerKillListener(new killListener());
+        //anilyser.startParser("C:\\Users\\Torin\\Documents\\git\\annilyser\\annilyser-core\\src\\main\\java\\com\\nullwert\\annilyser\\logsim\\testlog.txt", false);
     }
 
     class gamestateListener implements GamestateChangeListener {
