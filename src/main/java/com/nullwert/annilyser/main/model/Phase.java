@@ -1,8 +1,13 @@
-package com.nullwert.annilyser.model;
+package com.nullwert.annilyser.main.model;
 
 public class Phase {
     private long time;
     private int phase;
+
+    public Phase() {
+        this.time = -1;
+        this.phase = -1;
+    }
 
     public Phase(long time, int phase) {
         this.time = time;

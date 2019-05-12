@@ -1,18 +1,28 @@
-package com.nullwert.annilyser.model;
+package com.nullwert.annilyser.main.model;
 
 import java.util.UUID;
 
-public class Meta {
+public class GameStateMeta {
 
     private long startTime;
     private String mapName;
     private int totalKills;
-    private int killsPerSecond;
+    private long killsPerSecond;
     private int gameState;
     private String winner;
     private UUID datasetUID;
 
-    public Meta(long startTime, String mapName, int totalKills, int killsPerSecond, int gameState, String winner, UUID datasetUID) {
+    public GameStateMeta() {
+        this.startTime = -1;
+        this.mapName = null;
+        this.totalKills = -1;
+        this.killsPerSecond = -1;
+        this.gameState = -1;
+        this.winner = null;
+        this.datasetUID = UUID.randomUUID();
+    }
+
+    public GameStateMeta(long startTime, String mapName, int totalKills, int killsPerSecond, int gameState, String winner, UUID datasetUID) {
         this.startTime = startTime;
         this.mapName = mapName;
         this.totalKills = totalKills;
@@ -46,11 +56,11 @@ public class Meta {
         this.totalKills = totalKills;
     }
 
-    public int getKillsPerSecond() {
+    public long getKillsPerSecond() {
         return killsPerSecond;
     }
 
-    public void setKillsPerSecond(int killsPerSecond) {
+    public void setKillsPerSecond(long killsPerSecond) {
         this.killsPerSecond = killsPerSecond;
     }
 

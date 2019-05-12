@@ -1,4 +1,4 @@
-package com.nullwert.annilyser.model;
+package com.nullwert.annilyser.main.model;
 
 public class KillData {
     private long time;
@@ -8,6 +8,15 @@ public class KillData {
     private long yellow;
     private double average;
 
+    public KillData() {
+        this.time = -1;
+        this.red = -1;
+        this.blue = -1;
+        this.green = -1;
+        this.yellow = -1;
+        this.average = -1;
+    }
+
     public KillData(long time, long red, long blue, long green, long yellow, double average) {
         this.time = time;
         this.red = red;
@@ -15,6 +24,10 @@ public class KillData {
         this.green = green;
         this.yellow = yellow;
         this.average = average;
+    }
+
+    public KillData duplicateUpdatedTime(long newTime) {
+        return new KillData(newTime, red, blue, yellow, green, average);
     }
 
     public long getTime() {

@@ -1,26 +1,28 @@
-package com.nullwert.annilyser.model;
+package com.nullwert.annilyser.main.model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameState {
-    private Meta meta;
-    private List<Phase> phase = new LinkedList<>();
+    private GameStateMeta gameStateMeta;
+    private List<Phase> phase;
     private GameOverTeam outOfGame;
     private Kills kills;
 
-    public GameState(Meta meta, GameOverTeam outOfGame, Kills kills) {
-        this.meta = meta;
+    public GameState(GameStateMeta gameStateMeta, GameOverTeam outOfGame, Kills kills) {
+        this.gameStateMeta = gameStateMeta;
         this.outOfGame = outOfGame;
         this.kills = kills;
+        this.phase = new CopyOnWriteArrayList<>();
     }
 
-    public Meta getMeta() {
-        return meta;
+    public GameStateMeta getGameStateMeta() {
+        return gameStateMeta;
     }
 
-    public void setMeta(Meta meta) {
-        this.meta = meta;
+    public void setGameStateMeta(GameStateMeta gameStateMeta) {
+        this.gameStateMeta = gameStateMeta;
     }
 
     public List<Phase> getPhase() {

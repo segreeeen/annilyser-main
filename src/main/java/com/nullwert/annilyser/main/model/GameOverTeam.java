@@ -1,4 +1,4 @@
-package com.nullwert.annilyser.model;
+package com.nullwert.annilyser.main.model;
 
 public class GameOverTeam {
     private long red;

@@ -1,9 +1,17 @@
-package com.nullwert.annilyser.model;
+package com.nullwert.annilyser.main.model;
+
+import com.nullwert.annilyser.model.datastructures.Kill;
 
 public class KillMeta {
     long min;
     long max;
     long timeMax;
+
+    public KillMeta() {
+        this.min = -1;
+        this.max = -1;
+        this.timeMax = -1;
+    }
 
     public KillMeta(long min, long max, long timeMax) {
         this.min = min;
