@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.UUID;
 
 @Component
 public class AnnilyserService implements CommandLineRunner {
@@ -29,7 +28,7 @@ public class AnnilyserService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.gameState = new GameState(new GameStateMeta(), new GameOverTeam(), new Kills());
+        this.gameState = new GameState();
         anilyser.registerGamestateChangeListener(new gamestateListener());
         anilyser.registerKillListener(new killListener());
         anilyser.registerNexusListener(new nexusListener());
@@ -52,8 +51,8 @@ public class AnnilyserService implements CommandLineRunner {
         anilyser.stopParser();
     }
 
-    private KillData mapKillData(KillEvent killEvent) {
-        KillData kd = new KillData(killEvent.getValue().getTimestampSeconds(),
+    private LineChartData mapLineChartData(KillEvent killEvent) {
+        LineChartData kd = new LineChartData(killEvent.getValue().getTimestampSeconds(),
                 killEvent.getRedKills(),
                 killEvent.getBlueKills(),
                 killEvent.getGreenKills(),
@@ -62,10 +61,10 @@ public class AnnilyserService implements CommandLineRunner {
         return kd;
     }
 
-    private KillMeta mapKillMeta(KillEvent killEvent) {
-        KillMeta km = new KillMeta();
+    private LineChartMeta mapLineChartMeta(KillEvent killEvent) {
+        LineChartMeta km = new LineChartMeta();
         km.setMax(killEvent.getMaxKills());
-        km.setMin(killEvent.getMinKills());
+        km.setMin(0);
         km.setTimeMax(killEvent.getValue().getTimestampSeconds());
         return km;
     }
@@ -145,14 +144,37 @@ public class AnnilyserService implements CommandLineRunner {
         this.gameState.setGameStateMeta(gsm);
     }
 
-    private void updateKills(KillMeta km, KillData kd) {
-        if (gameState.getKills().getLastKillData() != null) {
-            KillData duplicateUpdatedTime = gameState.getKills().getLastKillData().duplicateUpdatedTime(kd.getTime());
-            gameState.getKills().addKillData(duplicateUpdatedTime);
+    private void updateKills(LineChartMeta km, LineChartData kd) {
+        if (gameState.getKills().getLastChartData() == null) {
+            LineChartData initial = new LineChartData(0,0,0,0,0,0);
+            gameState.getKills().addKillData(initial);
         }
-
+        LineChartData duplicateUpdatedTime = gameState.getKills().getLastChartData().duplicateUpdatedTime(kd.getTime());
+        gameState.getKills().addKillData(duplicateUpdatedTime);
         this.gameState.getKills().addKillData(kd);
         this.gameState.getKills().setMeta(km);
+    }
+
+    private void updateKillsDeathScore(LineChartMeta km, LineChartData kd) {
+        if (gameState.getKillsdeathscore().getLastChartData() == null) {
+            LineChartData initial = new LineChartData(0,0,0,0,0,0);
+            gameState.getKillsdeathscore().addKillData(initial);
+        }
+        LineChartData duplicateUpdatedTime = gameState.getKills().getLastChartData().duplicateUpdatedTime(kd.getTime());
+        gameState.getKillsdeathscore().addKillData(duplicateUpdatedTime);
+        this.gameState.getKillsdeathscore().addKillData(kd);
+        this.gameState.getKillsdeathscore().setMeta(km);
+    }
+
+    private void updateKillsPerSec(LineChartMeta km, LineChartData kd) {
+        if (gameState.getKillspersec().getLastChartData() == null) {
+            LineChartData initial = new LineChartData(0,0,0,0,0,0);
+            gameState.getKillspersec().addKillData(initial);
+        }
+        LineChartData duplicateUpdatedTime = gameState.getKills().getLastChartData().duplicateUpdatedTime(kd.getTime());
+        gameState.getKills().addKillData(duplicateUpdatedTime);
+        this.gameState.getKillspersec().addKillData(kd);
+        this.gameState.getKillspersec().setMeta(km);
     }
 
     private void updateGameOverTeam(GameOverTeam got) {
@@ -178,7 +200,29 @@ public class AnnilyserService implements CommandLineRunner {
                 break;
             default: break;
         }
+    }
 
+    private PieChartData mapPieChartData() {
+        return new PieChartData(1,2,3,4);
+    }
+
+    private PieChartMeta mapPieChartMeta() {
+        return new PieChartMeta(324,4242,341,254,454);
+    }
+
+    private void updateBowKills(PieChartData pcd, PieChartMeta pcm) {
+        this.gameState.getBowkills().addKillData(pcd);
+        this.gameState.getBowkills().setMeta(pcm);
+    }
+
+    private void updateNonBowKills(PieChartData pcd, PieChartMeta pcm) {
+        this.gameState.getNonbowkills().addKillData(pcd);
+        this.gameState.getNonbowkills().setMeta(pcm);
+    }
+
+    private void updateOtherPie(PieChartData pcd, PieChartMeta pcm) {
+        this.gameState.getOtherpie().addKillData(pcd);
+        this.gameState.getOtherpie().setMeta(pcm);
     }
 
     public String getLogPath() {
@@ -206,7 +250,13 @@ public class AnnilyserService implements CommandLineRunner {
     class killListener implements KillListener {
         @Override
         public void fireChangeEvent(KillEvent killEvent) {
-            updateKills(mapKillMeta(killEvent), mapKillData(killEvent));
+            updateKills(mapLineChartMeta(killEvent), mapLineChartData(killEvent));
+            updateKillsDeathScore(mapLineChartMeta(killEvent), mapLineChartData(killEvent));
+            updateKillsPerSec(mapLineChartMeta(killEvent), mapLineChartData(killEvent));
+            updateBowKills(mapPieChartData(),mapPieChartMeta());
+            updateNonBowKills(mapPieChartData(),mapPieChartMeta());
+            updateOtherPie(mapPieChartData(),mapPieChartMeta());
+
             updateGameStateMeta(mapGameStateMeta(killEvent, null, null));
         }
     }

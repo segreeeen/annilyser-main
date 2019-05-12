@@ -2,21 +2,15 @@ package com.nullwert.annilyser.main.model;
 
 import com.nullwert.annilyser.model.datastructures.Kill;
 
-public class KillMeta {
+public class LineChartMeta implements IChartMeta {
     long min;
     long max;
     long timeMax;
 
-    public KillMeta() {
-        this.min = -1;
-        this.max = -1;
-        this.timeMax = -1;
-    }
-
-    public KillMeta(long min, long max, long timeMax) {
-        this.min = min;
-        this.max = max;
-        this.timeMax = timeMax;
+    public LineChartMeta() {
+        this.max = 0;
+        this.min = 0;
+        this.timeMax = 0;
     }
 
     public long getMin() {

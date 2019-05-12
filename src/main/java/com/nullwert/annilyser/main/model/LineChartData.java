@@ -1,6 +1,6 @@
 package com.nullwert.annilyser.main.model;
 
-public class KillData {
+public class LineChartData implements IChartData{
     private long time;
     private long red;
     private long blue;
@@ -8,16 +8,16 @@ public class KillData {
     private long yellow;
     private double average;
 
-    public KillData() {
-        this.time = -1;
-        this.red = -1;
-        this.blue = -1;
-        this.green = -1;
-        this.yellow = -1;
-        this.average = -1;
+    public LineChartData() {
+        this.time = 0;
+        this.red = 0;
+        this.blue = 0;
+        this.green = 0;
+        this.yellow = 0;
+        this.average = 0;
     }
 
-    public KillData(long time, long red, long blue, long green, long yellow, double average) {
+    public LineChartData(long time, long red, long blue, long green, long yellow, double average) {
         this.time = time;
         this.red = red;
         this.blue = blue;
@@ -26,8 +26,8 @@ public class KillData {
         this.average = average;
     }
 
-    public KillData duplicateUpdatedTime(long newTime) {
-        return new KillData(newTime, red, blue, yellow, green, average);
+    public LineChartData duplicateUpdatedTime(long newTime) {
+        return new LineChartData(newTime, red, blue, green, yellow, average);
     }
 
     public long getTime() {
