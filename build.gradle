@@ -1,7 +1,9 @@
 plugins {
     id 'org.springframework.boot' version '2.1.4.RELEASE'
     id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
 }
+
 
 apply plugin: 'io.spring.dependency-management'
 
@@ -14,11 +16,17 @@ repositories {
     mavenCentral()
 }
 
+javafx {
+    version = "11.0.2"
+    modules = ['javafx.controls','javafx.fxml','javafx.web','javafx.graphics']
+}
+
 dependencies {
     implementation 'com.nullwert.annilyser:annilyser-core:1.0-SNAPSHOT'
     implementation 'com.nullwert.annilyser:annilyser-gui:1.0-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

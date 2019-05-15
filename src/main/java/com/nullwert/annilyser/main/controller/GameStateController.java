@@ -13,6 +13,7 @@ public class GameStateController {
     @Autowired
     private AnnilyserService anniService;
 
+    @CrossOrigin
     @RequestMapping("/gameState")
     public GameState gamestate() {
         return anniService.getGamestate();
