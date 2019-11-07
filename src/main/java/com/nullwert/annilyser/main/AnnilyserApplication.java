@@ -20,14 +20,17 @@ import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguratio
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class AnnilyserApplication extends Application {
@@ -46,7 +49,7 @@ public class AnnilyserApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        /*primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
                 try {
@@ -95,22 +98,12 @@ public class AnnilyserApplication extends Application {
 
         Scene scene = new Scene(box);
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.show();*/
     }
 
     @Override
     public void stop() throws Exception {
         springContext.stop();
     }
-
-    /*@Configuration
-    @EnableWebMvc
-    public class WebConfig implements WebMvcConfigurer {
-
-        @Override
-        public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/gameState");
-        }
-    }*/
 
   }
