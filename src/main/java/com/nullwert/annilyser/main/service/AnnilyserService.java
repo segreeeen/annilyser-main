@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Component
 public class AnnilyserService implements CommandLineRunner {
@@ -25,6 +26,7 @@ public class AnnilyserService implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(AnnilyserService.class);
     private LogAnalyser anilyser = new LogAnalyser();
     private GameState gameState;
+    private volatile Object gameStateMetaLock;
 
     @Override
     public void run(String... args) throws Exception {
@@ -40,6 +42,7 @@ public class AnnilyserService implements CommandLineRunner {
     }
 
     public GameState getGamestate() {
+
         return this.gameState;
     }
 
@@ -137,6 +140,7 @@ public class AnnilyserService implements CommandLineRunner {
             }
         }
 
+        gsm.setDatasetUID(UUID.randomUUID());
         return gsm;
     }
 
@@ -273,6 +277,7 @@ public class AnnilyserService implements CommandLineRunner {
         @Override
         public void fireChangeEvent(NexusEvent nexusEvent) {
             updateGameOverTeam(mapGameOverTeam(nexusEvent));
+            updateGameStateMeta(mapGameStateMeta(null, null, null));
         }
     }
 }
