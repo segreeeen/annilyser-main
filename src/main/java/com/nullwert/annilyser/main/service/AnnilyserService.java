@@ -11,6 +11,7 @@ import com.nullwert.annilyser.model.listener.events.KillEvent;
 import com.nullwert.annilyser.model.listener.events.NexusEvent;
 import com.nullwert.annilyser.model.listener.events.PhaseChangeEvent;
 import com.nullwert.annilyser.main.model.GameState;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -24,11 +25,12 @@ public class AnnilyserService implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(AnnilyserService.class);
     private LogAnalyser anilyser = new LogAnalyser();
     private volatile Object gameStateMetaLock;
-    private GameState gameState;
+
+    @Getter
+    private GameState gamestate;
 
     @Override
     public void run(String... args) throws Exception {
-        this.gameState = new GameState();
         anilyser.registerGamestateChangeListener(new gamestateListener());
         anilyser.registerKillListener(new killListener());
         anilyser.registerNexusListener(new nexusListener());
@@ -36,7 +38,15 @@ public class AnnilyserService implements CommandLineRunner {
     }
 
     public AnnilyserService() {
+        this.gamestate = GameState.createDefaultGamestate();
+    }
 
+    public void startAnnilyser() {
+        try {
+            run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

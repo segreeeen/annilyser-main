@@ -1,13 +1,15 @@
 package com.nullwert.annilyser.main.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class MainStat {
+@AllArgsConstructor
+public class CategorizedStat {
     private String kind;
     private String name;
     private String group;
     private int playercount;
-    MainStat relative;
-    MainStat absolut;
+    private GeneralStat relative;
+    private GeneralStat absolut;
 }

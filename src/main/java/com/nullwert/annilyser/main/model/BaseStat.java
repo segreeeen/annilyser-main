@@ -1,9 +1,10 @@
 package com.nullwert.annilyser.main.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
+@AllArgsConstructor
 public class BaseStat {
     private int total;
     private int melee;
