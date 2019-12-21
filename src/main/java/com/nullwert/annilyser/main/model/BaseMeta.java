@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BaseMeta {
-    private int killsmin;
-    private int killsmax;
-    private int deathmin;
-    private int deathmax;
+    private long killsmin;
+    private long killsmax;
+    private long deathmin;
+    private long deathmax;
 }

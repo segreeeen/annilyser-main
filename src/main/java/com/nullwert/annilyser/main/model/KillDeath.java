@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class KillDeath  extends BaseStat{
-    public KillDeath(int total, int melee, int bow, Nexus nexus) {
+    public KillDeath(long total, long melee, long bow, Nexus nexus) {
         super(total, melee, bow);
         this.nexus = nexus;
     }

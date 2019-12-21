@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BaseStat {
-    private int total;
-    private int melee;
-    private int bow;
+    private long total;
+    private long melee;
+    private long bow;
 }

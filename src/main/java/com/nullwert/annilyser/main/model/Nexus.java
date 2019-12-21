@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Nexus {
-    private BaseStat defend;
     private BaseStat attack;
+    private BaseStat defend;
 }
