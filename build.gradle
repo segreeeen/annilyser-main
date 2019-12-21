@@ -11,7 +11,7 @@ apply plugin: 'maven'
 
 
 
-def main_version = '0.0.2'
+def main_version = '0.0.3'
 
 group = 'com.nullwert.annilyser'
 version = main_version
@@ -34,6 +34,7 @@ bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
     publications = ['MyPublication']
+    publish = true
     pkg {
         repo = 'maven'
         name = 'annilyser-main'
