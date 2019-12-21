@@ -1,27 +1,55 @@
 plugins {
     id 'org.springframework.boot' version '2.1.4.RELEASE'
     id 'java'
+    id "com.jfrog.bintray" version "1.8.4"
 }
 
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'maven-publish'
+apply plugin: 'maven'
 
 group = 'com.nullwert.annilyser'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
+
 sourceCompatibility = '1.8'
 
 repositories {
     mavenLocal()
     mavenCentral()
+        maven {
+            url  "https://dl.bintray.com/segreeeen/maven"
+        }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['MyPublication']
+    pkg {
+        repo = 'maven'
+        name = 'annilyser-main'
+        userOrg = 'segreeeen'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/annilyser-main.git'
+        version {
+            name = '0.0.1'
+        }
+    }
 }
 
 bootJar {
     launchScript()
 }
 
+bootRun {
+    if (project.hasProperty('args')) {
+        args project.args.split(',')
+    }
+    standardInput = System.in
+}
+
 dependencies {
-    implementation 'com.nullwert.annilyser:annilyser-core:1.0-SNAPSHOT'
-    implementation 'com.nullwert.annilyser:annilyser-gui:1.0-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -29,5 +57,64 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.nullwert.annilyser:annilyser-core:0.0.1'
+}
+
+wrapper {
+    gradleVersion = '6.0.1'
+    distributionUrl = distributionUrl.replace("bin", "all")
+}
+
+// Create the pom configuration:
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "segreeeen"
+            name "Felix Batusic"
+            email "felix@batusic.net"
+        }
+    }
+
+    scm {
+        url "https://github.com/segreeeen/annilyser-main"
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier.set('sources')
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier.set('javadocJar')
+}
+
+// Create the publication with the pom configuration:
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            artifact javadocJar
+            artifact sourcesJar
+            groupId 'com.nullwert.annilyser'
+            artifactId 'annilyser-main'
+            version '0.0.1'
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Annilyser-Main is the REST-API for the annilyser-core')
+                root.appendNode('name', 'Annilyser-Main')
+                root.appendNode('url', 'https://github.com/segreeeen/annilyser-main')
+                root.children().last() + pomConfig
+            }
+        }
+    }
 }
 
