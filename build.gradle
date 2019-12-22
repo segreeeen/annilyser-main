@@ -1,7 +1,10 @@
+import java.text.SimpleDateFormat
+
 plugins {
     id 'org.springframework.boot' version '2.1.4.RELEASE'
     id 'java'
     id "com.jfrog.bintray" version "1.8.4"
+    id "com.jfrog.artifactory" version "4.7.3"
 }
 
 
@@ -9,25 +12,44 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'maven-publish'
 apply plugin: 'maven'
 
-
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 
 def main_version = '0.0.3'
 
 group = 'com.nullwert.annilyser'
-version = main_version
+version = main_version + (Boolean.valueOf(System.getProperty("snapshot")) ? "-SNAPSHOT" : "")
 
 sourceCompatibility = '1.8'
 
 repositories {
     mavenLocal()
     mavenCentral()
-        maven {
-            credentials {
-                username 'segreeeen'
-                password System.getenv('BINTRAY_PASSWORD')
-            }
-            url  "https://dl.bintray.com/segreeeen/maven"
+    jcenter()
+    maven {
+        url 'https://oss.jfrog.org/artifactory/oss-snapshot-local'
+    }
+}
+
+artifactory {
+    contextUrl = 'http://oss.jfrog.org'
+    publish {
+        repository {
+            repoKey = 'oss-snapshot-local'
+            username = System.getenv('BINTRAY_USER')
+            password = System.getenv('BINTRAY_KEY')
         }
+        defaults {
+            publications('MyPublication')
+            publishArtifacts = true
+            publishPom = true
+        }
+    }
+    resolve {
+        repoKey = 'jcenter'
+    }
+    clientConfig.info.setBuildNumber(new SimpleDateFormat("DDmmyyhhmmss").format(new Date()))
 }
 
 bintray {
@@ -66,7 +88,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'com.nullwert.annilyser:annilyser-core:0.0.1'
+    compile 'com.nullwert.annilyser:annilyser-core:0.0.1-SNAPSHOT'
 }
 
 wrapper {
