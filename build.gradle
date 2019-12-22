@@ -62,7 +62,7 @@ bintray {
         name = 'annilyser-main'
         userOrg = 'segreeeen'
         licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/annilyser-main.git'
+        vcsUrl = 'https://github.com/segreeeen/annilyser-main.git'
         version {
             name = main_version
         }
