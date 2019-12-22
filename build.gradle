@@ -64,7 +64,7 @@ bintray {
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/segreeeen/annilyser-main.git'
         version {
-            name = main_version
+            name = version
         }
     }
 }
@@ -137,7 +137,7 @@ publishing {
             artifact sourcesJar
             groupId 'com.nullwert.annilyser'
             artifactId 'annilyser-main'
-            version main_version
+            version version
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Annilyser-Main is the REST-API for the annilyser-core')
