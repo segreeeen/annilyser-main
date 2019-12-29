@@ -4,7 +4,7 @@ plugins {
     id 'org.springframework.boot' version '2.1.4.RELEASE'
     id 'java'
     id "com.jfrog.bintray" version "1.8.4"
-    id "com.jfrog.artifactory" version "4.7.3"
+    id "com.jfrog.artifactory" version "4.12.0"
 }
 
 
