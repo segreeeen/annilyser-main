@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -44,9 +46,13 @@ public class AnnilyserService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.anilyser = new LogAnalyser(AnnilyserApplication.getLOG_PATH_IN(), AnnilyserApplication.getLOG_PATH_OUT());
         this.pathIn = AnnilyserApplication.getLOG_PATH_IN();
         this.pathOut = AnnilyserApplication.getLOG_PATH_OUT();
+        if (!Files.exists(Paths.get(this.pathIn))) {
+            this.pathIn = null;
+        }
+        this.anilyser = new LogAnalyser(this.pathIn, AnnilyserApplication.getLOG_PATH_OUT());
+
         this.gamestate = GameState.getDefaultGameState();
     }
 
