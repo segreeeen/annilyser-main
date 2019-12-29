@@ -55,21 +55,23 @@ public class AnnilyserService implements CommandLineRunner {
     }
 
     public void startAnnilyser() {
-        if (this.pathIn != null) {
-            this.anilyser.setFileIn(pathIn);
-        }
-        if(this.pathOut != null) {
-            this.anilyser.setFileOut(pathOut);
-        }
-        anilyser.registerGamestateChangeListener(new gamestateListener());
-        anilyser.registerKillListener(new killListener());
-        anilyser.registerNexusListener(new nexusListener());
-        anilyser.registerPhaseChangeListener(new phaseChangeListener());
-        try {
-            anilyser.startParser(realtime);
-            this.started = true;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!started) {
+            if (this.pathIn != null) {
+                this.anilyser.setFileIn(pathIn);
+            }
+            if (this.pathOut != null) {
+                this.anilyser.setFileOut(pathOut);
+            }
+            anilyser.registerGamestateChangeListener(new gamestateListener());
+            anilyser.registerKillListener(new killListener());
+            anilyser.registerNexusListener(new nexusListener());
+            anilyser.registerPhaseChangeListener(new phaseChangeListener());
+            try {
+                anilyser.startParser(realtime);
+                this.started = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -105,9 +107,9 @@ public class AnnilyserService implements CommandLineRunner {
     private void updateNexusRadar(KillEvent killEvent) {
         Kill k = killEvent.getValue();
         if (k.getAttackmode() == Token.Attackmode.ATTACK) {
-            gamestate.addNexusRadarValue(k.getTimestampSeconds(), k.getVictim().getTeam().name().toLowerCase(), k.getVictim().getTeam().name().toLowerCase());
+            gamestate.getGameState().addNexusRadarValue(k.getTimestampSeconds(), k.getVictim().getTeam().name().toLowerCase(), k.getVictim().getTeam().name().toLowerCase());
         } else if (k.getAttackmode() == Token.Attackmode.DEFENSE) {
-            gamestate.addNexusRadarValue(k.getTimestampSeconds(), k.getKiller().getTeam().name().toLowerCase(), k.getVictim().getTeam().name().toLowerCase());
+            gamestate.getGameState().addNexusRadarValue(k.getTimestampSeconds(), k.getKiller().getTeam().name().toLowerCase(), k.getVictim().getTeam().name().toLowerCase());
         }
     }
 
@@ -123,7 +125,7 @@ public class AnnilyserService implements CommandLineRunner {
             List<CategorizedStat> killsDeath = CategorizedStatFactory.createStatListFromKillEvent(killEvent);
             Meta meta = MetaFactory.createMetaFromKillEvent(killEvent);
             KillsDeath kd = new KillsDeath(meta, killsDeath);
-            gamestate.setKillsDeath(kd);
+            gamestate.getGameState().setKillsDeath(kd);
             updateNexusRadar(killEvent);
         }
     }
