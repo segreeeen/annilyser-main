@@ -44,20 +44,16 @@ public class AnnilyserService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         this.pathIn = AnnilyserApplication.getLOG_PATH_IN();
-        this.pathOut = AnnilyserApplication.getLOG_PATH_OUT();
         if (!Files.exists(Paths.get(this.pathIn))) {
             this.pathIn = null;
         }
-        this.anilyser = new LogAnalyser(this.pathIn, AnnilyserApplication.getLOG_PATH_OUT());
-        if (isPathDetected()) {
-            this.pathIn = getDetectedPath();
+        this.pathOut = AnnilyserApplication.getLOG_PATH_OUT();
+        if (!Files.exists(Paths.get(this.pathOut))) {
+            this.pathOut = null;
         }
+        this.anilyser = new LogAnalyser(this.pathIn, this.pathOut);
 
         this.gamestate = GameState.getDefaultGameState();
-    }
-
-    public AnnilyserService() {
-
     }
 
     public void startAnnilyser() {

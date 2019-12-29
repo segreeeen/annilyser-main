@@ -62,7 +62,7 @@ public class GameStateController {
     @GetMapping("/path/detect")
     @ResponseBody
     public String getPath() {
-        return anniService.getPath();
+        return anniService.getDetectedPath();
     }
 
 
