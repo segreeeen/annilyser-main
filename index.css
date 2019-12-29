@@ -1,0 +1,884 @@
+* {
+    /* Griddefiniton */
+    --headheight: 10vh;
+    --mainheight: calc((90vh / 3) * 2);
+    --thirdheight: calc(100vh - var(--mainheight) - var(--headheight));
+    --thirdelementwidth: calc(var(--thirdheight) * 1.325);
+    /* h of hsl number color */
+    --h-color-red: 0;
+    --h-color-green: 93;
+    --h-color-blue: 199;
+    --h-color-yellow: 49;
+    --h-color-purple: 298;
+    /* s of hsl percent color*/
+    --s-global-korrection: 0%;
+    --s-color-red: 100%;
+    --s-color-green: 100%;
+    --s-color-blue: 100%;
+    --s-color-yellow: 100%;
+    --s-color-purple: 100%;
+    /*  colors to use */
+    --color-red: hsl(var(--h-color-red), calc( var(--s-color-red) + var(--s-global-korrection)), 59%);
+    --color-green: hsl(var(--h-color-green), calc( var(--s-color-green) + var(--s-global-korrection)), 38%);
+    --color-blue: hsl(var(--h-color-blue), calc( var(--s-color-blue) + var(--s-global-korrection)), 48%);
+    --color-yellow: hsl(var(--h-color-yellow), calc( var(--s-color-yellow) + var(--s-global-korrection)), 50%);
+    --color-purple: hsl(var(--h-color-purple), calc( var(--s-color-purple) + var(--s-global-korrection)), 38%);
+    /* colors darker */
+    --color-red-darker: hsl(var(--h-color-red), 77%, 54%);
+    --color-green-darker: hsl(var(--h-color-green), 97%, 33%);
+    --color-blue-darker: hsl(var(--h-color-blue), 97%, 43%);
+    --color-yellow-darker: hsl(var(--h-color-yellow), 97%, 33%);
+    --color-gray: hsl(0, 0%, 50%);
+    /* data colors */
+    /* --fullrect: '#424242';
+    --datarect: '#6b6b6b'; hsl(0, 0%, 42%)
+    --contentrect: '#535353'; hsl(0, 0%, 33%);
+    --background: '#282828'; 
+    --text: '#dddddd';
+    --texthighlight: '#f0f0f0';
+    --textsuperhighlight: '#838383'; */
+    --global-background: hsl(0, 0%, 26%);
+    /* --hsl-fullrect: var(--global-background); */
+    --hsl-datarect: hsl(0, 0%, 35%);
+    /* The Background of the Datagrid  */
+    --hsl-contentrect: var(--global-background);
+    /* The absolut Background of all graphs */
+    /* --hsl-text-data-axis: hsl(0, 0%, 94%); */
+    --hsl-text-data-axis: var(--color-gray);
+    --hsl-texthighlight: hsl(0, 0%, 60%);
+    --hsl-background: hsl(0, 0%, 16%);
+    --hsl-text: hsl(0, 0%, 87%);
+    --hsl-textsuperhighlight: hsl(0, 0%, 51%);
+    --hsl-text-ddonut: hsl(0, 0%, 20%);
+}
+
+
+/* hsl(93, 97%, 38%); */
+
+
+/* --------------------------------------------------------------------- */
+
+body {
+    margin: 0px;
+    padding: 0px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-rows: repeat(3, 1fr); */
+    background: var(--global-background);
+}
+
+
+/* --------------------------------------------------------------------- */
+
+.annilyser-logo {
+    fill: #FFFFFF;
+}
+
+
+/* --------------------------------------------------------------------- */
+
+
+/* GRID */
+
+
+/* Rows */
+
+.firstline {
+    display: grid;
+    height: var(--headheight);
+    grid-column: 1 / 4;
+    /* background: var(--color-red); */
+}
+
+.secondline {
+    height: var(--mainheight);
+    /* background: darkseagreen; */
+}
+
+.thirdline {
+    display: grid;
+    grid-column: 1 / 4;
+    grid-template-columns: var(--thirdelementwidth) var(--thirdelementwidth) calc(100vw - (var(--thirdelementwidth) * 2));
+    height: var(--thirdheight);
+    /* background: darkolivegreen; */
+}
+
+.secondA {
+    display: grid;
+    width: calc(100vw - var(--mainheight) - (var(--mainheight) / 2));
+    /* background: green; */
+}
+
+.secondB {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: var(--mainheight);
+    /* background: blue; */
+}
+
+.secondC {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: calc(var(--mainheight) / 2);
+    /* background: orange; */
+}
+
+.thirdA {}
+
+.thirdB {}
+
+.thirdC {}
+
+
+/* Slots */
+
+#head-a {}
+
+#head-b {}
+
+#slot-a {}
+
+#slot-b {}
+
+#slot-c {}
+
+#slot-d {}
+
+#slot-e {}
+
+#slot-f {}
+
+#slot-g {}
+
+#slot-h {}
+
+#slot-i {}
+
+#slot-j {}
+
+#slot-k {}
+
+#slot-l {}
+
+#slot-m {}
+
+
+/* --------------------------------------------------------------------- */
+
+
+/* .container-basic {
+    background-color: var(--hsl-fullrect);
+    padding: 0.2em 0.5em;
+    border-radius: 1px;
+} */
+
+
+/* .dataframe {
+    fill: none;
+    stroke: var(--hsl-fullrect);
+    stroke-width: 0.5px
+} */
+
+
+/* .textNormal {
+    color: #b0b0b0;
+} */
+
+
+/* .textHell {
+    color: #f0f0f0;
+} */
+
+
+/* .line {
+    fill: none;
+    stroke-width: 1;
+}
+
+.red {
+    stroke: #e74747;
+}
+
+.green {
+    stroke: #57bd03;
+}
+
+.blue {
+    stroke: #04a6f1;
+}
+
+.yellow {
+    stroke: #ffd000;
+}
+
+.average {
+    stroke: #510353;
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-dasharray: 0, 3;
+    /* stroke-dashoffset: 3; */
+
+
+/* } */
+
+
+/* .dot {
+    fill: #e74747;
+    stroke: #6b6b6b;
+} */
+
+
+/* --------------------------------------- */
+
+
+/* d3-given classes */
+
+.tick line {
+    color: var(--hsl-contentrect) !important;
+    /* color: #fff !important; */
+    stroke-width: 0.3 !important;
+}
+
+.tick text {
+    color: var(--hsl-text-data-axis) !important;
+    /* color: #fff !important; */
+    /* stroke-width: 0.3 !important; */
+    /* opacity: 0.3; */
+}
+
+.axis {
+    font: 7px sans-serif;
+}
+
+.domain {
+    stroke: none;
+}
+
+
+/* --------------------------------------- */
+
+.background {
+    fill: var(--hsl-contentrect);
+}
+
+.datarect {
+    /* stroke: #6b6b6b;stroke-width: 0.5; */
+    fill: var(--hsl-datarect);
+}
+
+
+/* --------------------------------------- */
+
+.menlisttick {
+    stroke: var(--hsl-contentrect) !important;
+    /* color: #fff !important; */
+    stroke-width: 0.3 !important;
+    fill: none;
+}
+
+.menlist-sep {
+    stroke: var(--hsl-contentrect) !important;
+    /* color: #fff !important; */
+    stroke-width: 0.7 !important;
+    fill: none;
+}
+
+.team-text {
+    font: 7px sans-serif;
+    text-anchor: middle;
+}
+
+
+/* --------------------------------------- */
+
+.crosspie-teamsize {
+    fill: var(--hsl-text-ddonut);
+    opacity: 0.5;
+    font: 18px sans-serif;
+    text-anchor: middle;
+    baseline-shift: -35%;
+}
+
+.crosspie-tick {
+    stroke: var(--hsl-contentrect) !important;
+    /* color: #fff !important; */
+    stroke-width: 0.3 !important;
+    fill: none;
+}
+
+
+/* --------------------------------------- */
+
+.radartick {
+    stroke: var(--hsl-contentrect) !important;
+    /* color: #fff !important; */
+    stroke-width: 0.3 !important;
+    fill: none;
+}
+
+.radartxt text {
+    fill: var(--hsl-contentrect);
+    /* font: bold 25px sans-serif; */
+    font: 20px sans-serif;
+    text-transform: uppercase;
+    text-anchor: middle;
+    letter-spacing: 2px;
+}
+
+.radartxt text:first-child {
+    baseline-shift: 50%;
+}
+
+.radartxt text:last-child {
+    baseline-shift: -50%;
+}
+
+
+/* --------------------------------------- */
+
+
+/* scatter dotts*/
+
+.team-scatterdott {
+    fill: none;
+    r: 2;
+}
+
+.player-scatterdott {
+    stroke: 'none';
+    r: 2;
+}
+
+.class-scatterdott {
+    fill: none;
+    /* fill: var(--color-gray); */
+    r: 5;
+}
+
+.player-scatterdott-red {
+    fill: var(--color-red);
+}
+
+.player-scatterdott-green {
+    fill: var(--color-green);
+}
+
+.player-scatterdott-blue {
+    fill: var(--color-blue);
+}
+
+.player-scatterdott-yellow {
+    fill: var(--color-yellow);
+}
+
+.team-scatterdott-red {
+    stroke: var(--color-red);
+}
+
+.team-scatterdott-green {
+    stroke: var(--color-green);
+}
+
+.team-scatterdott-blue {
+    stroke: var(--color-blue);
+}
+
+.team-scatterdott-yellow {
+    stroke: var(--color-yellow);
+}
+
+.scatterdotttext {
+    font: 7px sans-serif;
+    baseline-shift: -12px;
+    opacity: 0.5;
+}
+
+
+/* .class-scatterdott-tra,
+.class-scatterdott-vam {
+    fill: var(--color-gray);
+    r: 5;
+} */
+
+
+/* --------------------------------------- */
+
+
+/* ----------------- FILL COLORS ---------------------- */
+
+.fill-red {
+    fill: var(--color-red);
+}
+
+.fill-green {
+    fill: var(--color-green);
+}
+
+.fill-blue {
+    fill: var(--color-blue);
+}
+
+.fill-yellow {
+    fill: var(--color-yellow);
+}
+
+.fill-purple {
+    fill: var(--color-purple);
+}
+
+
+/* ----------------- STROKE COLORS ---------------------- */
+
+.stroke-red {
+    stroke: var(--color-red);
+}
+
+.stroke-green {
+    stroke: var(--color-green);
+}
+
+.stroke-blue {
+    stroke: var(--color-blue);
+}
+
+.stroke-yellow {
+    stroke: var(--color-yellow);
+}
+
+.stroke-purple {
+    fill: var(--color-purple);
+}
+
+
+/* --------------------------------------- */
+
+.fill-acrobat {
+    fill: rgb(200, 200, 200);
+}
+
+.fill-alchemist {
+    fill: rgb(120, 117, 98);
+}
+
+.fill-archer {
+    fill: rgb(80, 66, 39);
+}
+
+.fill-assassin {
+    fill: rgb(188, 209, 244);
+}
+
+.fill-berserker {
+    fill: rgb(109, 109, 109);
+}
+
+.fill-blood_mage {
+    fill: rgb(117, 44, 54);
+}
+
+.fill-builder {
+    fill: rgb(115, 56, 40);
+}
+
+.fill-civilian {
+    fill: rgb(70, 52, 32);
+}
+
+.fill-dasher {
+    fill: rgb(19, 88, 76);
+}
+
+.fill-defender {
+    fill: rgb(82, 72, 58);
+}
+
+.fill-enchanter {
+    fill: rgb(48, 38, 37);
+}
+
+.fill-engineer {
+    fill: rgb(102, 54, 40);
+}
+
+.fill-farmer {
+    fill: rgb(61, 134, 27);
+}
+
+.fill-handyman {
+    fill: rgb(45, 44, 44);
+}
+
+.fill-healer {
+    fill: rgb(133, 93, 133);
+}
+
+.fill-hunter {
+    fill: rgb(142, 106, 81);
+}
+
+.fill-iceman {
+    fill: rgb(104, 124, 158);
+}
+
+.fill-immobolizer {
+    fill: rgb(101, 154, 92);
+}
+
+.fill-lumberjack {
+    fill: rgb(93, 84, 68);
+}
+
+.fill-mercernary {
+    fill: rgb(126, 126, 126);
+}
+
+.fill-ninja {
+    fill: rgb(89, 89, 89);
+}
+
+.fill-pyro {
+    fill: rgb(72, 72, 72);
+}
+
+.fill-rift-walker {
+    fill: rgb(196, 134, 26);
+}
+
+.fill-robin-hood {
+    fill: rgb(57, 54, 23);
+}
+
+.fill-scorpio {
+    fill: rgb(209, 204, 232);
+}
+
+.fill-scout {
+    fill: rgb(87, 77, 58);
+}
+
+.fill-sniper {
+    fill: rgb(123, 115, 100);
+}
+
+.fill-spider {
+    fill: rgb(220, 220, 220);
+}
+
+.fill-spy {
+    fill: rgb(211, 166, 252);
+}
+
+.fill-swapper {
+    fill: rgb(52, 65, 46);
+}
+
+.fill-thor {
+    fill: rgb(111, 103, 43);
+}
+
+.fill-tinkerer {
+    fill: rgb(113, 18, 6);
+}
+
+.fill-transporter {
+    fill: rgb(180, 167, 157);
+}
+
+.fill-vampire {
+    fill: rgb(88, 0, 0);
+}
+
+.fill-warrior {
+    fill: rgb(94, 93, 89);
+}
+
+
+/* .fill-Acrobat {
+    fill: green;
+}
+
+.fill-Alchemist {
+    fill: green;
+}
+
+.fill-Archer {
+    fill: green;
+}
+
+.fill-Assassin {
+    fill: green;
+}
+
+.fill-Bard {
+    fill: green;
+}
+
+.fill-Berserker {
+    fill: green;
+}
+
+.fill-Bloodmage {
+    fill: green;
+}
+
+.fill-builder {
+    fill: #a55;
+}
+
+.fill-Civilian {
+    fill: green;
+}
+
+.fill-Dasher {
+    fill: green;
+}
+
+.fill-Defender {
+    fill: green;
+}
+
+.fill-Enchanter {
+    fill: green;
+}
+
+.fill-Engineer {
+    fill: green;
+}
+
+.fill-Farmer {
+    fill: green;
+}
+
+.fill-Handyman {
+    fill: green;
+}
+
+.fill-Healer {
+    fill: green;
+}
+
+.fill-Hunter {
+    fill: green;
+}
+
+.fill-Iceman {
+    fill: green;
+}
+
+.fill-Immobilizer {
+    fill: green;
+}
+
+.fill-Lumberjack {
+    fill: green;
+}
+
+.fill-Mercenary {
+    fill: green;
+}
+
+.fill-Miner {
+    fill: green;
+}
+
+.fill-Ninja {
+    fill: green;
+}
+
+.fill-Pyro {
+    fill: green;
+}
+
+.fill-Rift-Walker {
+    fill: green;
+}
+
+.fill-Robin-Hood {
+    fill: green;
+}
+
+.fill-Scorpio {
+    fill: green;
+}
+
+.fill-Scout {
+    fill: green;
+}
+
+.fill-Sniper {
+    fill: green;
+}
+
+.fill-Spider {
+    fill: green;
+}
+
+.fill-Spy {
+    fill: green;
+}
+
+.fill-Succubus {
+    fill: green;
+}
+
+.fill-Swapper {
+    fill: green;
+}
+
+.fill-Thor {
+    fill: green;
+}
+
+.fill-tinkerer {
+    fill: #a00;
+}
+
+.fill-transporter {
+    fill: #aaa;
+}
+
+.fill-Vampire {
+    fill: green;
+}
+
+.fill-Warrior {
+    fill: green;
+}
+
+.fill-Wizard {
+    fill: green;
+} */
+
+
+/* --------------------------------------- */
+
+.class-icon-circle {
+    fill: var(--hsl-contentrect);
+}
+
+
+/* --------------------------------------- */
+
+
+/* DoubleDonut definitions */
+
+.ddonut-text {
+    fill: var(--hsl-text-data-axis);
+    font: bold 25px sans-serif;
+    text-transform: uppercase;
+    /* text-anchor: left; */
+    letter-spacing: 2px;
+}
+
+.ddonut-border {
+    stroke: var(--hsl-contentrect);
+    stroke-width: 3px;
+}
+
+
+/* ----------------- */
+
+.team-ddonut-red-melee {
+    fill: var(--color-red);
+}
+
+.team-ddonut-green-melee {
+    fill: var(--color-green);
+}
+
+.team-ddonut-blue-melee {
+    fill: var(--color-blue);
+}
+
+.team-ddonut-yellow-melee {
+    fill: var(--color-yellow);
+}
+
+.team-ddonut-red-bow {
+    fill: var(--color-red-darker);
+}
+
+.team-ddonut-green-bow {
+    fill: var(--color-green-darker);
+}
+
+.team-ddonut-blue-bow {
+    fill: var(--color-blue-darker);
+}
+
+.team-ddonut-yellow-bow {
+    fill: var(--color-yellow-darker);
+}
+
+.team-ddonut-big-sum-top {
+    fill: var(--color-purple);
+    font: 24px sans-serif;
+    text-anchor: middle;
+    baseline-shift: 90%;
+}
+
+.team-ddonut-big-sum-bottom {
+    fill: var(--color-purple);
+    font: 24px sans-serif;
+    text-anchor: middle;
+    baseline-shift: -160%;
+}
+
+.team-ddonut-small-sum-top,
+.team-ddonut-small-sum-bottom {
+    display: none;
+}
+
+#datasubgroup g .icon {
+    /* display: none; */
+    opacity: 0.7;
+}
+
+
+/* --------------------------------------- */
+
+.team-ddonut-bigtext {
+    /* fill: var(--color-yellow-darker); */
+    fill: var(--hsl-text-ddonut);
+    opacity: 0.5;
+    font: bold 17px sans-serif;
+    text-anchor: middle;
+    baseline-shift: -30%;
+}
+
+.team-ddonut-bigtext-subline {
+    /* fill: var(--color-yellow-darker); */
+    fill: var(--hsl-text-ddonut);
+    opacity: 0.5;
+    font: 9px sans-serif;
+    text-anchor: middle;
+    baseline-shift: -160%;
+}
+
+.team-ddonut-smalltext {
+    fill: var(--hsl-texthighlight);
+    /* opacity: 0.5; */
+    font: bold 8px sans-serif;
+    text-anchor: middle;
+    baseline-shift: -50%;
+}
+
+.team-ddonut-smalltext-subline {
+    display: none;
+}
+
+.team-ddonut-headline-top {
+    fill: var(--hsl-text-data-axis);
+    font: 14px sans-serif;
+    text-anchor: middle;
+}
+
+.team-ddonut-headline-bottom {
+    fill: var(--hsl-text-data-axis);
+    font: 14px sans-serif;
+    text-anchor: middle;
+    baseline-shift: -80%;
+}
+
+
+/* --------------------------------------- */
