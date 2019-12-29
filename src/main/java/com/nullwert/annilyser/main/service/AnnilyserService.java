@@ -23,9 +23,6 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 
 @Component
@@ -52,6 +49,9 @@ public class AnnilyserService implements CommandLineRunner {
             this.pathIn = null;
         }
         this.anilyser = new LogAnalyser(this.pathIn, AnnilyserApplication.getLOG_PATH_OUT());
+        if (isPathDetected()) {
+            this.pathIn = getDetectedPath();
+        }
 
         this.gamestate = GameState.getDefaultGameState();
     }
@@ -85,7 +85,7 @@ public class AnnilyserService implements CommandLineRunner {
         return LogAnalyser.isPathDetected();
     }
 
-    public String getPath() {
+    public String getDetectedPath() {
         return LogAnalyser.getPath();
     }
 
