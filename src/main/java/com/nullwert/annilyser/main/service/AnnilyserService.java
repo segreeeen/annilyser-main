@@ -4,6 +4,7 @@ package com.nullwert.annilyser.main.service;
 import com.nullwert.annilyser.LogAnalyser;
 import com.nullwert.annilyser.main.AnnilyserApplication;
 import com.nullwert.annilyser.main.model.*;
+import com.nullwert.annilyser.model.datastructures.Kill;
 import com.nullwert.annilyser.model.listener.GamestateChangeListener;
 import com.nullwert.annilyser.model.listener.KillListener;
 import com.nullwert.annilyser.model.listener.NexusListener;
@@ -12,6 +13,7 @@ import com.nullwert.annilyser.model.listener.events.GamestateEvent;
 import com.nullwert.annilyser.model.listener.events.KillEvent;
 import com.nullwert.annilyser.model.listener.events.NexusEvent;
 import com.nullwert.annilyser.model.listener.events.PhaseChangeEvent;
+import com.nullwert.annilyser.parser.token.Token;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -96,6 +101,16 @@ public class AnnilyserService implements CommandLineRunner {
         return this.pathOut;
     }
 
+
+    private void updateNexusRadar(KillEvent killEvent) {
+        Kill k = killEvent.getValue();
+        if (k.getAttackmode() == Token.Attackmode.ATTACK) {
+            gamestate.addNexusRadarValue(k.getTimestampSeconds(), k.getVictim().getTeam().name().toLowerCase(), k.getVictim().getTeam().name().toLowerCase());
+        } else if (k.getAttackmode() == Token.Attackmode.DEFENSE) {
+            gamestate.addNexusRadarValue(k.getTimestampSeconds(), k.getKiller().getTeam().name().toLowerCase(), k.getVictim().getTeam().name().toLowerCase());
+        }
+    }
+
     class gamestateListener implements GamestateChangeListener {
         @Override
         public void fireChangeEvent(GamestateEvent gamestateEvent) {
@@ -109,6 +124,7 @@ public class AnnilyserService implements CommandLineRunner {
             Meta meta = MetaFactory.createMetaFromKillEvent(killEvent);
             KillsDeath kd = new KillsDeath(meta, killsDeath);
             gamestate.setKillsDeath(kd);
+            updateNexusRadar(killEvent);
         }
     }
 
