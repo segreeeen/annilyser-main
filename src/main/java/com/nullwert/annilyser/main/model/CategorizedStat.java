@@ -5,11 +5,11 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CategorizedStat {
+public class CategorizedStat<T> {
     private String kind;
     private String name;
     private String group;
     private int playercount;
-    private GeneralStat relative;
-    private GeneralStat absolut;
+    private T relative;
+    private T absolut;
 }

@@ -25,10 +25,12 @@ public class GameState {
     public class GameStateData {
         IStatisticComponent killsDeath;
         Map<Long, Map<String, Map<String, Long>>> nexusradar;
+        TeamVsTeam teamVsTeam;
 
         public GameStateData(IStatisticComponent killsDeath) {
             this.killsDeath = killsDeath;
             this.nexusradar = new HashMap<>();
+            this.teamVsTeam = new TeamVsTeam();
         }
 
         public void setKillsDeath(IStatisticComponent killsDeath) {

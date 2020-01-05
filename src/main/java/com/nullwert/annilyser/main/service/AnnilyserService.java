@@ -22,7 +22,9 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -124,10 +126,17 @@ public class AnnilyserService implements CommandLineRunner {
     class killListener implements KillListener {
         @Override
         public void fireChangeEvent(KillEvent killEvent) {
-            List<CategorizedStat> killsDeath = CategorizedStatFactory.createStatListFromKillEvent(killEvent);
+            List<CategorizedStat> killsDeath = CategorizedStatFactory.createKillsDeathListFromKillEvent(killEvent);
             Meta meta = MetaFactory.createMetaFromKillEvent(killEvent);
             KillsDeath kd = new KillsDeath(meta, killsDeath);
             gamestate.getGameState().setKillsDeath(kd);
+            List<CategorizedStat> list = CategorizedStatFactory.createTeamVsTeamFromKillEvent(killEvent);
+            TeamVsTeam teamVsTeam = new TeamVsTeam();
+            for (CategorizedStat stat: list) {
+                teamVsTeam.getData().put(stat.getName().toLowerCase(), stat);
+            }
+            teamVsTeam.setMeta(meta);
+            gamestate.getGameState().setTeamVsTeam(teamVsTeam);
             updateNexusRadar(killEvent);
         }
     }

@@ -1,4 +1,4 @@
-package com.nullwert.annilyser.main.service;
+package com.nullwert.annilyser.main.model;
 
 import com.nullwert.annilyser.main.model.BaseMeta;
 import com.nullwert.annilyser.main.model.Meta;

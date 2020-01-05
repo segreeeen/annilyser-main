@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class GeneralStat {
-    private KillDeath kills;
-    private KillDeath deaths;
+public class GeneralStat<T> {
+    private T kills;
+    private T deaths;
 }

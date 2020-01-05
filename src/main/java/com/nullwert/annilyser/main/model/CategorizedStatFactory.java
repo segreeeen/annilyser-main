@@ -1,16 +1,17 @@
 package com.nullwert.annilyser.main.model;
 
+import com.nullwert.annilyser.model.datastructures.IKillDeathStats;
 import com.nullwert.annilyser.model.datastructures.IStatistic;
+import com.nullwert.annilyser.model.datastructures.TeamRelation;
 import com.nullwert.annilyser.model.listener.events.KillEvent;
+import com.nullwert.annilyser.parser.token.Token;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CategorizedStatFactory {
 
-    public static List<CategorizedStat> createStatListFromKillEvent(KillEvent killEvent) {
+    public static List<CategorizedStat> createKillsDeathListFromKillEvent(KillEvent killEvent) {
         List<CategorizedStat> stats = new LinkedList<>();
         List<CategorizedStat> teams = killEvent.getTeams().stream().map(CategorizedStatFactory::createCategorizedStat).sorted(Comparator.comparing(CategorizedStat::getName)).collect(Collectors.toList());
         List<CategorizedStat> players = killEvent.getPlayers().stream().map(CategorizedStatFactory::createCategorizedStat).sorted(Comparator.comparing(CategorizedStat::getName)).collect(Collectors.toList());
@@ -21,7 +22,12 @@ public class CategorizedStatFactory {
         return stats;
     }
 
-    private static CategorizedStat createCategorizedStat(IStatistic statistic) {
+    public static List<CategorizedStat> createTeamVsTeamFromKillEvent(KillEvent killEvent) {
+        List<CategorizedStat> list = killEvent.getTeams().stream().map(CategorizedStatFactory::createCategorizedTeamRelationStat).collect(Collectors.toList());
+        return list;
+    }
+
+    public static CategorizedStat createCategorizedStat(IStatistic statistic) {
         return createCategorizedStat(statistic.getKind().toString(),statistic.getName(), statistic.getGroup(),
                 statistic.getPlayerCount(),
                 statistic.getRelativeKillstats().getTotal(),
@@ -102,13 +108,43 @@ public class CategorizedStatFactory {
                                                          long absoluteDeathsNexusDefendTotal,
                                                          long absoluteDeathsNexusDefendMelee,
                                                          long absoluteDeathsNexusDefendBow) {
-        return new CategorizedStat(kind, name, group, playerCount,
-                new GeneralStat(
+        return new CategorizedStat<>(kind, name, group, playerCount,
+                new GeneralStat<>(
                         new KillDeath(relativeKillsTotal, relativeKillsMelee, relativeKillsBow, new Nexus(new BaseStat(relativeKillsNexusAttackTotal, relativeKillsNexusAttackMelee, relativeKillsNexusAttackBow), new BaseStat(relativeKillsNexusDefendTotal, relativeKillsNexusDefendMelee, relativeKillsNexusDefendBow))),
                         new KillDeath(relativeDeathsTotal, relativeDeathsMelee, relativeDeathsBow, new Nexus(new BaseStat(relativeDeathsNexusAttackTotal, relativeDeathsNexusAttackMelee, relativeDeathsNexusAttackBow), new BaseStat(relativeDeathsNexusDefendTotal, relativeDeathsNexusDefendMelee, relativeDeathsNexusDefendBow)))),
-                new GeneralStat(
+                new GeneralStat<>(
                         new KillDeath(absoluteKillsTotal, absoluteKillsMelee, absoluteKillsBow, new Nexus(new BaseStat(absoluteKillsNexusAttackTotal, absoluteKillsNexusAttackMelee, absoluteKillsNexusAttackBow), new BaseStat(absoluteKillsNexusDefendTotal, absoluteKillsNexusDefendMelee, absoluteKillsNexusDefendBow))),
                         new KillDeath(absoluteDeathsTotal, absoluteDeathsMelee, absoluteDeathsBow, new Nexus(new BaseStat(absoluteDeathsNexusAttackTotal, absoluteDeathsNexusAttackMelee, absoluteDeathsNexusAttackBow), new BaseStat(absoluteDeathsNexusDefendTotal, absoluteDeathsNexusDefendMelee, absoluteDeathsNexusDefendBow)))));
+    }
+
+    private static CategorizedStat<GeneralStat<Map<String, KillDeath>>> createCategorizedTeamRelationStat(IStatistic statistic) {
+        Map<String, KillDeath> relkills = new HashMap<>();
+        Map<String, KillDeath> reldeaths = new HashMap<>();
+        Map<String, KillDeath> abskills = new HashMap<>();
+        Map<String, KillDeath> absdeaths = new HashMap<>();
+        for (IStatistic relation: statistic.getRelations()) {
+            TeamRelation teamRelation = (TeamRelation) relation;
+            IKillDeathStats relativeKills = relation.getRelativeKillstats();
+            IKillDeathStats relativeDeaths = relation.getRelativeDeathstats();
+            relkills.put(teamRelation.getEnemy().toString().toLowerCase(), new KillDeath(relativeKills.getTotal(), relativeKills.getMelee(), relativeKills.getBow(), new Nexus(new BaseStat(relativeKills.getNexusAttack(), relativeKills.getMeleeNexusAttack(), relativeKills.getBowNexusAttack()), new BaseStat(relativeKills.getNexusDefense(), relativeKills.getMeleeNexusDefense(), relativeKills.getBowNexusDefense()))));
+            reldeaths.put(teamRelation.getEnemy().toString().toLowerCase(), new KillDeath(relativeDeaths.getTotal(), relativeDeaths.getMelee(), relativeDeaths.getBow(), new Nexus(new BaseStat(relativeDeaths.getNexusAttack(), relativeDeaths.getMeleeNexusAttack(), relativeDeaths.getBowNexusAttack()), new BaseStat(relativeDeaths.getNexusDefense(), relativeDeaths.getMeleeNexusDefense(), relativeDeaths.getBowNexusDefense()))));
+
+            IKillDeathStats absoluteKills = relation.getAbsoluteKillstats();
+            IKillDeathStats absoluteDeaths = relation.getAbsoluteDeathstats();
+            abskills.put(teamRelation.getEnemy().toString().toLowerCase(), new KillDeath(absoluteKills.getTotal(), absoluteKills.getMelee(), absoluteKills.getBow(), new Nexus(new BaseStat(absoluteKills.getNexusAttack(), absoluteKills.getMeleeNexusAttack(), absoluteKills.getBowNexusAttack()), new BaseStat(absoluteKills.getNexusDefense(), absoluteKills.getMeleeNexusDefense(), absoluteKills.getBowNexusDefense()))));
+            absdeaths.put(teamRelation.getEnemy().toString().toLowerCase(), new KillDeath(absoluteDeaths.getTotal(), absoluteDeaths.getMelee(), absoluteDeaths.getBow(), new Nexus(new BaseStat(absoluteDeaths.getNexusAttack(), absoluteDeaths.getMeleeNexusAttack(), absoluteDeaths.getBowNexusAttack()), new BaseStat(absoluteDeaths.getNexusDefense(), absoluteDeaths.getMeleeNexusDefense(), absoluteDeaths.getBowNexusDefense()))));
+
+        }
+
+        GeneralStat<Map<String, KillDeath>> relativeKd = new GeneralStat<>(relkills, reldeaths);
+        GeneralStat<Map<String, KillDeath>> absoluteKd = new GeneralStat<>(abskills, absdeaths);
+
+        return new CategorizedStat<GeneralStat<Map<String, KillDeath>>>(statistic.getKind().name().toLowerCase(), statistic.getName(), statistic.getGroup(), statistic.getPlayerCount(),
+                relativeKd, absoluteKd);
+    }
+
+    private static CategorizedStat<GeneralStat<Map<String, KillDeath>>> createCategorizedTeamRelationStat() {
+        return null;
     }
 
 }
